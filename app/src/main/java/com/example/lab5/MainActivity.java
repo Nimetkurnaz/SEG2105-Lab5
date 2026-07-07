@@ -79,12 +79,24 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void newProduct (View view) {
+        String skuString = skuBox.getText().toString().trim();
+        String productName = productBox.getText().toString().trim();
 
-        int sku = Integer.parseInt(skuBox.getText().toString());
+        if (skuString.isEmpty() || productName.isEmpty()) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        Product product = new Product(productBox.getText().toString(), sku);
+        int sku = Integer.parseInt(skuString);
 
-        //MyDBHandler dbHandler = new MyDBHandler(this);
+        // USE VALIDATOR HERE
+        if (!ProductValidator.isValidSku(sku)) {
+            Toast.makeText(this, "Invalid SKU! Must be greater than 0.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Product product = new Product(productName, sku);
+
         dbHandler.addProduct(product);
         productListAdapter.add(product);
         Toast.makeText(this, "Product added successfully", Toast.LENGTH_SHORT).show();

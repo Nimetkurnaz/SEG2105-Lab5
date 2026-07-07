@@ -78,5 +78,17 @@ public class MyDBHandler extends SQLiteOpenHelper {
         dB.close();
         return result;
     }
+
+    public boolean updateProduct(Product product) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PRODUCTNAME, product.getProductName());
+        values.put(COLUMN_SKU, product.getSku());
+        int rows = db.update(TABLE_PRODUCTS, values,
+                COLUMN_ID + " = ?",
+                new String[]{ String.valueOf(product.getId()) });
+        db.close();
+        return rows > 0; // false if no product had that id
+    }
 }
 

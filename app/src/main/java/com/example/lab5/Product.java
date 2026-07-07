@@ -44,5 +44,7 @@ public class Product {
         return _price;
     }
 
-
+    public double getSku() {
+        return _price;
+    }
 }
